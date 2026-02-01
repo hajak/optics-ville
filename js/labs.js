@@ -983,7 +983,7 @@ const RefractionLab = {
     getMaterials() {
         switch (this.mode) {
             case 'airToGlass': return { top: this.materials.air, bottom: this.materials.glass, fromDenser: false };
-            case 'glassToAir': return { top: this.materials.glass, bottom: this.materials.air, fromDenser: true };
+            case 'glassToAir': return { top: this.materials.air, bottom: this.materials.glass, fromDenser: true };
             case 'airToWater': return { top: this.materials.air, bottom: this.materials.water, fromDenser: false };
             default: return { top: this.materials.air, bottom: this.materials.glass, fromDenser: false };
         }
