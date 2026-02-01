@@ -260,6 +260,29 @@ body {
     white-space: nowrap;
 }
 
+.header-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.lang-toggle {
+    padding: 0.4rem 0.8rem;
+    border: 2px solid var(--accent-primary);
+    background: transparent;
+    color: var(--accent-primary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.lang-toggle:hover {
+    background: var(--accent-primary);
+    color: white;
+}
+
 .theme-toggle {
     padding: 0.6rem;
     border: none;
