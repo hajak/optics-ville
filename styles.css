@@ -64,6 +64,13 @@ body {
     justify-content: center;
     padding: 2rem;
     background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+    position: relative;
+}
+
+.welcome-lang-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }
 
 .welcome-content {

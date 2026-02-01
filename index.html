@@ -10,6 +10,9 @@
     <div class="app-container">
         <!-- Welcome Screen -->
         <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-lang-toggle">
+                <button class="lang-toggle" id="welcomeLangToggle" aria-label="Switch language">EN</button>
+            </div>
             <div class="welcome-content">
                 <h1>Välkommen till Optik-Labbet!</h1>
                 <p class="welcome-intro">Här kommer du lära dig om ljus och optik genom interaktiva experiment.</p>
@@ -120,7 +123,7 @@
                             </div>
                         </div>
                         <div class="formula-display">
-                            <strong>Reflektionslagen:</strong> Infallsvinkel = Reflektionsvinkel (θ<sub>i</sub> = θ<sub>r</sub>)
+                            <span id="planeMirrorFormula"><strong>Reflektionslagen:</strong> Infallsvinkel = Reflektionsvinkel (θ<sub>i</sub> = θ<sub>r</sub>)</span>
                         </div>
                     </div>
                 </section>
@@ -163,7 +166,7 @@
                                 <span class="info-value" id="concaveMirrorMagnification">-</span>
                             </div>
                         </div>
-                        <div class="formula-display">
+                        <div class="formula-display" id="concaveMirrorFormula">
                             <strong>Spegelformeln:</strong> 1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub>
                         </div>
                     </div>
@@ -207,7 +210,7 @@
                                 <span class="info-value" id="convexMirrorMagnification">-</span>
                             </div>
                         </div>
-                        <div class="formula-display">
+                        <div class="formula-display" id="convexMirrorFormula">
                             <strong>Spegelformeln:</strong> 1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub> (f är negativ för konvex spegel)
                         </div>
                     </div>
@@ -251,7 +254,7 @@
                                 <span class="info-value" id="convexLensMagnification">-</span>
                             </div>
                         </div>
-                        <div class="formula-display">
+                        <div class="formula-display" id="convexLensFormula">
                             <strong>Linsformeln:</strong> 1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub>
                         </div>
                     </div>
@@ -295,7 +298,7 @@
                                 <span class="info-value" id="concaveLensMagnification">-</span>
                             </div>
                         </div>
-                        <div class="formula-display">
+                        <div class="formula-display" id="concaveLensFormula">
                             <strong>Linsformeln:</strong> 1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub> (f är negativ för konkav lins)
                         </div>
                     </div>
@@ -347,7 +350,7 @@
                                 <span class="info-value" id="refractionStatus">Brytning</span>
                             </div>
                         </div>
-                        <div class="formula-display">
+                        <div class="formula-display" id="refractionFormula">
                             <strong>Snells lag:</strong> n<sub>1</sub> · sin(θ<sub>1</sub>) = n<sub>2</sub> · sin(θ<sub>2</sub>)
                         </div>
                     </div>
@@ -400,7 +403,7 @@
                                 <span class="info-value" id="prismLeastBent">Rött</span>
                             </div>
                         </div>
-                        <div class="formula-display">
+                        <div class="formula-display" id="prismFormulaDisplay">
                             <strong>Dispersion:</strong> Olika våglängder har olika brytningsindex
                         </div>
                     </div>
@@ -453,11 +456,11 @@
                                     <span class="tool-label">Plan</span>
                                 </button>
                                 <button class="builder-tool-btn" data-tool="convex-mirror" title="Konvex spegel">
-                                    <span class="tool-icon">)</span>
+                                    <span class="tool-icon">(</span>
                                     <span class="tool-label">Konvex</span>
                                 </button>
                                 <button class="builder-tool-btn" data-tool="concave-mirror" title="Konkav spegel">
-                                    <span class="tool-icon">(</span>
+                                    <span class="tool-icon">)</span>
                                     <span class="tool-label">Konkav</span>
                                 </button>
                             </div>
@@ -525,48 +528,7 @@
                     <div class="quiz-content">
                         <h2>Tänkfrågor om optik</h2>
                         <p class="quiz-intro">Fundera på dessa frågor för att testa din förståelse. Skriv ner dina svar eller diskutera med någon!</p>
-                        <ol class="quiz-questions">
-                            <li>
-                                <strong>Varför ser du dig själv i en spegel men inte i en vit vägg?</strong>
-                                <p class="hint">Tips: Tänk på skillnaden mellan spegelreflektion och diffus reflektion.</p>
-                            </li>
-                            <li>
-                                <strong>Om du står 2 meter från en plan spegel, hur långt bakom spegeln verkar din spegelbild vara?</strong>
-                                <p class="hint">Tips: Tänk på föremålsavstånd och bildavstånd i plana speglar.</p>
-                            </li>
-                            <li>
-                                <strong>Varför förstoras ditt ansikte när du tittar i en sminkspegel (konkav spegel) på nära håll?</strong>
-                                <p class="hint">Tips: Tänk på var föremålet är i förhållande till brännpunkten.</p>
-                            </li>
-                            <li>
-                                <strong>Varför står det "Objects in mirror are closer than they appear" på bilars sidospeglar?</strong>
-                                <p class="hint">Tips: Sidospeglar är konvexa. Vad händer med bilden i en konvex spegel?</p>
-                            </li>
-                            <li>
-                                <strong>Ett förstoringsglas använder en konvex lins. Varför måste du hålla det nära det du vill förstora?</strong>
-                                <p class="hint">Tips: Vad händer med bilden när föremålet är innanför brännpunkten vs utanför?</p>
-                            </li>
-                            <li>
-                                <strong>Glasögon för närsynthet har konkava linser, medan glasögon för översynthet har konvexa linser. Varför?</strong>
-                                <p class="hint">Tips: Tänk på om ögats lins fokuserar för mycket eller för lite.</p>
-                            </li>
-                            <li>
-                                <strong>När du tittar ner i en pool ser botten ut att vara grundare än den faktiskt är. Varför?</strong>
-                                <p class="hint">Tips: Ljuset bryts när det går från vatten till luft.</p>
-                            </li>
-                            <li>
-                                <strong>Fiberoptiska kablar kan böjas och ljuset följer med runt svängarna. Hur är detta möjligt?</strong>
-                                <p class="hint">Tips: Tänk på totalreflektion och kritiska vinkeln.</p>
-                            </li>
-                            <li>
-                                <strong>Varför ser vi regnbågens färger i just den ordningen (rött överst, violett underst)?</strong>
-                                <p class="hint">Tips: Vilken färg bryts mest? Vilken bryts minst?</p>
-                            </li>
-                            <li>
-                                <strong>Diamanter "glittrar" mer än glas. Vad har detta med brytningsindex att göra?</strong>
-                                <p class="hint">Tips: Diamant har n≈2.4, glas har n≈1.5. Tänk på totalreflektion.</p>
-                            </li>
-                        </ol>
+                        <ol class="quiz-questions" id="quizQuestionsList"></ol>
                         <div class="completion-buttons">
                             <button class="btn" id="backToCompletionBtn">Tillbaka</button>
                             <button class="btn btn-secondary" id="quizFreeExploreBtn">Utforska laboratorierna igen</button>

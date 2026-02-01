@@ -57,13 +57,32 @@ const Translations = {
         sameSize: "Lika stor",
         enlarged: "Förstorad",
         reduced: "Förminskad",
+        atInfinity: "I oändligheten",
+
+        // Canvas labels
+        dragToMove: "← Klicka & dra för att flytta →",
+        dragToChangeAngle: "← Dra för att ändra vinkel →",
+        objectLabel: "Föremål",
+        imageLabel: "Bild",
+        totalReflection: "Totalreflektion!",
+        totalReflectionShort: "Totalreflektion",
+        refractionText: "Brytning",
+        notAvailable: "Finns ej",
+        wavelength: "Våglängd:",
+        refractiveIndexLabel: "Brytningsindex:",
+        singleRefraction: "Enkel brytning",
 
         // Formulas
         reflectionLaw: "Reflektionslagen:",
         reflectionFormula: "Infallsvinkel = Reflektionsvinkel (θi = θr)",
         mirrorFormula: "Spegelformeln:",
+        mirrorFormulaConvex: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub> (f är negativ för konvex spegel)",
+        mirrorFormulaConcave: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub>",
         lensFormula: "Linsformeln:",
+        lensFormulaConvex: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub>",
+        lensFormulaConcave: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub> (f är negativ för konkav lins)",
         snellsLaw: "Snells lag:",
+        snellsLawFormula: "n<sub>1</sub> · sin(θ<sub>1</sub>) = n<sub>2</sub> · sin(θ<sub>2</sub>)",
         dispersion: "Dispersion:",
         dispersionDesc: "Olika våglängder har olika brytningsindex",
 
@@ -98,9 +117,39 @@ const Translations = {
         leastBent: "Minst bryts:",
         violet: "Violett",
         red: "Rött",
+        violetN: "Violett (n=1.536)",
+        redN: "Rött (n=1.513)",
+        whiteLightLabel: "Vitt ljus",
+        prismLabel: "Prisma",
+        colorRed: "Rött",
+        colorOrange: "Orange",
+        colorYellow: "Gult",
+        colorGreen: "Grönt",
+        colorBlue: "Blått",
+        colorIndigo: "Indigo",
+        colorViolet: "Violett",
+        lightSuffix: "ljus",
+
+        // Refraction canvas
+        opticallyDenser: "Optiskt tätare",
+        opticallyThinner: "Optiskt tunnare",
 
         // Light builder
+        elements: "Element",
+        rays: "Strålar",
         tools: "Verktyg",
+        typeLabel: "Typ:",
+        sizeLabel: "Storlek:",
+        widthLabel: "Bredd:",
+        parallelLight: "Parallellt ljus",
+        pointLight: "Punktljus",
+        convexLensType: "Konvex lins",
+        concaveLensType: "Konkav lins",
+        planeMirrorType: "Plan spegel",
+        convexMirrorType: "Konvex spegel",
+        concaveMirrorType: "Konkav spegel",
+        prismType: "Prisma",
+        liquidBoxType: "Vätskebehållare",
         select: "Välj",
         lightSources: "Ljuskällor",
         parallel: "Parallell",
@@ -144,6 +193,18 @@ const Translations = {
         back: "Tillbaka",
         exploreAgain: "Utforska laboratorierna igen",
         hint: "Tips:",
+        quizQuestions: [
+            { q: "Varför ser du dig själv i en spegel men inte i en vit vägg?", h: "Tänk på skillnaden mellan spegelreflektion och diffus reflektion." },
+            { q: "Om du står 2 meter från en plan spegel, hur långt bakom spegeln verkar din spegelbild vara?", h: "Tänk på föremålsavstånd och bildavstånd i plana speglar." },
+            { q: "Varför förstoras ditt ansikte när du tittar i en sminkspegel (konkav spegel) på nära håll?", h: "Tänk på var föremålet är i förhållande till brännpunkten." },
+            { q: "Varför står det \"Objects in mirror are closer than they appear\" på bilars sidospeglar?", h: "Sidospeglar är konvexa. Vad händer med bilden i en konvex spegel?" },
+            { q: "Ett förstoringsglas använder en konvex lins. Varför måste du hålla det nära det du vill förstora?", h: "Vad händer med bilden när föremålet är innanför brännpunkten vs utanför?" },
+            { q: "Glasögon för närsynthet har konkava linser, medan glasögon för översynthet har konvexa linser. Varför?", h: "Tänk på om ögats lins fokuserar för mycket eller för lite." },
+            { q: "När du tittar ner i en pool ser botten ut att vara grundare än den faktiskt är. Varför?", h: "Ljuset bryts när det går från vatten till luft." },
+            { q: "Fiberoptiska kablar kan böjas och ljuset följer med runt svängarna. Hur är detta möjligt?", h: "Tänk på totalreflektion och kritiska vinkeln." },
+            { q: "Varför ser vi regnbågens färger i just den ordningen (rött överst, violett underst)?", h: "Vilken färg bryts mest? Vilken bryts minst?" },
+            { q: "Diamanter \"glittrar\" mer än glas. Vad har detta med brytningsindex att göra?", h: "Diamant har n≈2.4, glas har n≈1.5. Tänk på totalreflektion." }
+        ],
 
         // Help modal
         help: "Hjälp",
@@ -217,13 +278,32 @@ const Translations = {
         sameSize: "Same size",
         enlarged: "Enlarged",
         reduced: "Reduced",
+        atInfinity: "At infinity",
+
+        // Canvas labels
+        dragToMove: "← Click & drag to move →",
+        dragToChangeAngle: "← Drag to change angle →",
+        objectLabel: "Object",
+        imageLabel: "Image",
+        totalReflection: "Total internal reflection!",
+        totalReflectionShort: "Total internal reflection",
+        refractionText: "Refraction",
+        notAvailable: "N/A",
+        wavelength: "Wavelength:",
+        refractiveIndexLabel: "Refractive index:",
+        singleRefraction: "Simple refraction",
 
         // Formulas
         reflectionLaw: "Law of Reflection:",
         reflectionFormula: "Angle of incidence = Angle of reflection (θi = θr)",
         mirrorFormula: "Mirror equation:",
+        mirrorFormulaConvex: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub> (f is negative for convex mirror)",
+        mirrorFormulaConcave: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub>",
         lensFormula: "Lens equation:",
+        lensFormulaConvex: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub>",
+        lensFormulaConcave: "1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub> (f is negative for concave lens)",
         snellsLaw: "Snell's law:",
+        snellsLawFormula: "n<sub>1</sub> · sin(θ<sub>1</sub>) = n<sub>2</sub> · sin(θ<sub>2</sub>)",
         dispersion: "Dispersion:",
         dispersionDesc: "Different wavelengths have different refractive indices",
 
@@ -258,9 +338,39 @@ const Translations = {
         leastBent: "Least bent:",
         violet: "Violet",
         red: "Red",
+        violetN: "Violet (n=1.536)",
+        redN: "Red (n=1.513)",
+        whiteLightLabel: "White light",
+        prismLabel: "Prism",
+        colorRed: "Red",
+        colorOrange: "Orange",
+        colorYellow: "Yellow",
+        colorGreen: "Green",
+        colorBlue: "Blue",
+        colorIndigo: "Indigo",
+        colorViolet: "Violet",
+        lightSuffix: "light",
+
+        // Refraction canvas
+        opticallyDenser: "Optically denser",
+        opticallyThinner: "Optically thinner",
 
         // Light builder
+        elements: "Elements",
+        rays: "Rays",
         tools: "Tools",
+        typeLabel: "Type:",
+        sizeLabel: "Size:",
+        widthLabel: "Width:",
+        parallelLight: "Parallel light",
+        pointLight: "Point light",
+        convexLensType: "Convex lens",
+        concaveLensType: "Concave lens",
+        planeMirrorType: "Plane mirror",
+        convexMirrorType: "Convex mirror",
+        concaveMirrorType: "Concave mirror",
+        prismType: "Prism",
+        liquidBoxType: "Liquid container",
         select: "Select",
         lightSources: "Light Sources",
         parallel: "Parallel",
@@ -304,6 +414,18 @@ const Translations = {
         back: "Back",
         exploreAgain: "Explore the labs again",
         hint: "Hint:",
+        quizQuestions: [
+            { q: "Why can you see yourself in a mirror but not in a white wall?", h: "Think about the difference between specular reflection and diffuse reflection." },
+            { q: "If you stand 2 meters from a plane mirror, how far behind the mirror does your reflection appear to be?", h: "Think about object distance and image distance in plane mirrors." },
+            { q: "Why is your face magnified when you look in a makeup mirror (concave mirror) up close?", h: "Think about where the object is in relation to the focal point." },
+            { q: "Why do car side mirrors say \"Objects in mirror are closer than they appear\"?", h: "Side mirrors are convex. What happens to the image in a convex mirror?" },
+            { q: "A magnifying glass uses a convex lens. Why must you hold it close to what you want to magnify?", h: "What happens to the image when the object is inside vs outside the focal point?" },
+            { q: "Glasses for nearsightedness have concave lenses, while glasses for farsightedness have convex lenses. Why?", h: "Think about whether the eye's lens focuses too much or too little." },
+            { q: "When you look down into a pool, the bottom appears shallower than it actually is. Why?", h: "Light bends when it goes from water to air." },
+            { q: "Fiber optic cables can bend and light follows around the curves. How is this possible?", h: "Think about total internal reflection and the critical angle." },
+            { q: "Why do we see rainbow colors in that specific order (red on top, violet at bottom)?", h: "Which color bends most? Which bends least?" },
+            { q: "Diamonds \"sparkle\" more than glass. What does this have to do with refractive index?", h: "Diamond has n≈2.4, glass has n≈1.5. Think about total internal reflection." }
+        ],
 
         // Help modal
         help: "Help",
@@ -436,3 +558,15 @@ Translations.en.guidedSteps = {
         { text: "Shortcuts: R = rotate, Del = delete, D = duplicate, +/- = zoom.", concept: "Shortcuts" }
     ]
 };
+
+
+// Global translation helper function for use in labs.js
+let currentLang = "sv";
+
+function t(key) {
+    return Translations[currentLang][key] || key;
+}
+
+function setLang(lang) {
+    currentLang = lang;
+}

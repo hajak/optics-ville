@@ -540,66 +540,66 @@ const LightBuilderLab = {
         const element = this.state.selectedId ? this.getElementById(this.state.selectedId) : null;
 
         if (!element) {
-            panel.innerHTML = '<p class="builder-no-selection">Välj ett element för att se egenskaper</p>';
+            panel.innerHTML = `<p class="builder-no-selection">${t('selectElement')}</p>`;
             return;
         }
 
         let html = `<div class="builder-property-group">
-            <span class="builder-property-label">Typ:</span>
+            <span class="builder-property-label">${t('typeLabel')}</span>
             <span class="builder-property-value">${this.getElementTypeName(element.type)}</span>
         </div>`;
 
         const rotationDeg = Math.round(element.rotation * 180 / Math.PI);
         html += `<div class="builder-property-group">
-            <label for="builderRotation">Rotation: <span id="builderRotationValue">${rotationDeg}</span>&deg;</label>
+            <label for="builderRotation">${t('rotation')} <span id="builderRotationValue">${rotationDeg}</span>&deg;</label>
             <input type="range" id="builderRotation" min="0" max="360" value="${rotationDeg}">
         </div>`;
 
         if (element.properties.height !== undefined) {
             html += `<div class="builder-property-group">
-                <label for="builderHeight">Storlek: <span id="builderHeightValue">${element.properties.height}</span>px</label>
+                <label for="builderHeight">${t('sizeLabel')} <span id="builderHeightValue">${element.properties.height}</span>px</label>
                 <input type="range" id="builderHeight" min="40" max="250" value="${element.properties.height}">
             </div>`;
         }
 
         if (element.properties.size !== undefined) {
             html += `<div class="builder-property-group">
-                <label for="builderSize">Storlek: <span id="builderSizeValue">${element.properties.size}</span>px</label>
+                <label for="builderSize">${t('sizeLabel')} <span id="builderSizeValue">${element.properties.size}</span>px</label>
                 <input type="range" id="builderSize" min="40" max="200" value="${element.properties.size}">
             </div>`;
         }
 
         if (element.properties.width !== undefined && element.type === ElementTypes.LIQUID_BOX) {
             html += `<div class="builder-property-group">
-                <label for="builderWidth">Bredd: <span id="builderWidthValue">${element.properties.width}</span>px</label>
+                <label for="builderWidth">${t('widthLabel')} <span id="builderWidthValue">${element.properties.width}</span>px</label>
                 <input type="range" id="builderWidth" min="40" max="200" value="${element.properties.width}">
             </div>`;
         }
 
         if (element.properties.focalLength !== undefined) {
             html += `<div class="builder-property-group">
-                <label for="builderFocalLength">Brännvidd: <span id="builderFocalLengthValue">${element.properties.focalLength}</span>px</label>
+                <label for="builderFocalLength">${t('focalLength')} <span id="builderFocalLengthValue">${element.properties.focalLength}</span>px</label>
                 <input type="range" id="builderFocalLength" min="30" max="200" value="${element.properties.focalLength}">
             </div>`;
         }
 
         if (element.properties.rayCount !== undefined) {
             html += `<div class="builder-property-group">
-                <label for="builderRayCount">Antal strålar: <span id="builderRayCountValue">${element.properties.rayCount}</span></label>
+                <label for="builderRayCount">${t('rayCount')} <span id="builderRayCountValue">${element.properties.rayCount}</span></label>
                 <input type="range" id="builderRayCount" min="1" max="20" value="${element.properties.rayCount}">
             </div>`;
         }
 
         if (element.properties.refractiveIndex !== undefined) {
             html += `<div class="builder-property-group">
-                <label for="builderRefractiveIndex">Brytningsindex: <span id="builderRefractiveIndexValue">${element.properties.refractiveIndex.toFixed(2)}</span></label>
+                <label for="builderRefractiveIndex">${t('refractiveIndexLabel')} <span id="builderRefractiveIndexValue">${element.properties.refractiveIndex.toFixed(2)}</span></label>
                 <input type="range" id="builderRefractiveIndex" min="1.0" max="2.5" step="0.01" value="${element.properties.refractiveIndex}">
             </div>`;
         }
 
         html += `<div class="builder-property-actions">
-            <button class="builder-action-btn" id="builderDuplicateBtn">Duplicera</button>
-            <button class="builder-action-btn builder-delete-btn" id="builderDeleteBtn">Ta bort</button>
+            <button class="builder-action-btn" id="builderDuplicateBtn">${t('duplicate')}</button>
+            <button class="builder-action-btn builder-delete-btn" id="builderDeleteBtn">${t('delete')}</button>
         </div>`;
 
         panel.innerHTML = html;
@@ -613,15 +613,15 @@ const LightBuilderLab = {
 
     getElementTypeName(type) {
         const names = {
-            [ElementTypes.LIGHT_PARALLEL]: 'Parallellt ljus',
-            [ElementTypes.LIGHT_POINT]: 'Punktljus',
-            [ElementTypes.CONVEX_LENS]: 'Konvex lins',
-            [ElementTypes.CONCAVE_LENS]: 'Konkav lins',
-            [ElementTypes.PLANE_MIRROR]: 'Plan spegel',
-            [ElementTypes.CONVEX_MIRROR]: 'Konvex spegel',
-            [ElementTypes.CONCAVE_MIRROR]: 'Konkav spegel',
-            [ElementTypes.PRISM]: 'Prisma',
-            [ElementTypes.LIQUID_BOX]: 'Vätskebehållare'
+            [ElementTypes.LIGHT_PARALLEL]: t('parallelLight'),
+            [ElementTypes.LIGHT_POINT]: t('pointLight'),
+            [ElementTypes.CONVEX_LENS]: t('convexLensType'),
+            [ElementTypes.CONCAVE_LENS]: t('concaveLensType'),
+            [ElementTypes.PLANE_MIRROR]: t('planeMirrorType'),
+            [ElementTypes.CONVEX_MIRROR]: t('convexMirrorType'),
+            [ElementTypes.CONCAVE_MIRROR]: t('concaveMirrorType'),
+            [ElementTypes.PRISM]: t('prismType'),
+            [ElementTypes.LIQUID_BOX]: t('liquidBoxType')
         };
         return names[type] || type;
     },
@@ -634,7 +634,7 @@ const LightBuilderLab = {
 
         const statsEl = document.getElementById('builderStats');
         if (statsEl) {
-            statsEl.textContent = `Ljuskällor: ${lightSources} | Element: ${opticalElements} | Strålar: ${this.state.rays.length}`;
+            statsEl.textContent = `${t('lightSources')}: ${lightSources} | ${t('elements')}: ${opticalElements} | ${t('rays')}: ${this.state.rays.length}`;
         }
     },
 

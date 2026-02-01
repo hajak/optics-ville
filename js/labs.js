@@ -135,20 +135,20 @@ class OpticsLab {
     updateInfoPanel(imageData) {
         const prefix = this.prefix;
         if (imageData.atInfinity) {
-            document.getElementById(`${prefix}ImageType`).textContent = 'I oändligheten';
+            document.getElementById(`${prefix}ImageType`).textContent = t('atInfinity');
             document.getElementById(`${prefix}ImageOrientation`).textContent = '-';
             document.getElementById(`${prefix}ImageSize`).textContent = '-';
             document.getElementById(`${prefix}Magnification`).textContent = '∞';
             return;
         }
 
-        document.getElementById(`${prefix}ImageType`).textContent = imageData.isReal ? 'Verklig' : 'Virtuell';
-        document.getElementById(`${prefix}ImageOrientation`).textContent = imageData.isInverted ? 'Omvänd' : 'Upprätt';
+        document.getElementById(`${prefix}ImageType`).textContent = imageData.isReal ? t('real') : t('virtual');
+        document.getElementById(`${prefix}ImageOrientation`).textContent = imageData.isInverted ? t('inverted') : t('upright');
 
         const sizeRatio = Math.abs(imageData.magnification);
-        let sizeText = 'Lika stor';
+        let sizeText = t('sameSize');
         if (Math.abs(sizeRatio - 1) >= 0.05) {
-            sizeText = sizeRatio > 1 ? 'Förstorad' : 'Förminskad';
+            sizeText = sizeRatio > 1 ? t('enlarged') : t('reduced');
         }
         document.getElementById(`${prefix}ImageSize`).textContent = sizeText;
         document.getElementById(`${prefix}Magnification`).textContent = imageData.magnification.toFixed(2) + 'x';
@@ -244,14 +244,14 @@ const PlaneMirrorLab = {
         ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillStyle = this.isDark ? '#6699cc' : '#4477aa';
         ctx.textAlign = 'center';
-        ctx.fillText('← Klicka & dra för att flytta →', this.width / 2, 25);
+        ctx.fillText(t('dragToMove'), this.width / 2, 25);
 
-        CanvasUtils.drawLabel(ctx, 'Föremål', this.objectX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('objectLabel'), this.objectX, this.axisY + 25, this.isDark);
 
         const objectDistance = this.mirrorX - this.objectX;
         const imageX = this.mirrorX + objectDistance;
         CanvasUtils.drawImage(ctx, imageX, this.axisY, this.objectHeight, false, false);
-        CanvasUtils.drawLabel(ctx, 'Bild', imageX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('imageLabel'), imageX, this.axisY + 25, this.isDark);
 
         const objectTop = { x: this.objectX, y: this.axisY - this.objectHeight };
         CanvasUtils.drawRay(ctx, [objectTop, { x: this.mirrorX, y: objectTop.y }], CanvasUtils.colors.rayParallel, false, 2);
@@ -277,9 +277,9 @@ const PlaneMirrorLab = {
         CanvasUtils.drawLabel(ctx, `θi = ${angleDeg}°`, this.mirrorX - 55, hitY - 30, this.isDark);
         CanvasUtils.drawLabel(ctx, `θr = ${angleDeg}°`, this.mirrorX - 55, hitY - 10, this.isDark);
 
-        document.getElementById('planeMirrorImageType').textContent = 'Virtuell';
-        document.getElementById('planeMirrorImageOrientation').textContent = 'Upprätt';
-        document.getElementById('planeMirrorImageSize').textContent = 'Lika stor';
+        document.getElementById('planeMirrorImageType').textContent = t('virtual');
+        document.getElementById('planeMirrorImageOrientation').textContent = t('upright');
+        document.getElementById('planeMirrorImageSize').textContent = t('sameSize');
         document.getElementById('planeMirrorMagnification').textContent = '1.00x';
     }
 };
@@ -385,16 +385,16 @@ const ConcaveMirrorLab = {
         ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillStyle = this.isDark ? '#6699cc' : '#4477aa';
         ctx.textAlign = 'center';
-        ctx.fillText('← Klicka & dra för att flytta →', this.width / 2, 25);
+        ctx.fillText(t('dragToMove'), this.width / 2, 25);
 
         CanvasUtils.drawObject(ctx, this.objectX, this.axisY, this.objectHeight, CanvasUtils.colors.object);
-        CanvasUtils.drawLabel(ctx, 'Föremål', this.objectX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('objectLabel'), this.objectX, this.axisY + 25, this.isDark);
 
         const imageData = this.calculateImage();
         if (!imageData.atInfinity) {
             const displayHeight = Math.min(Math.abs(imageData.imageHeight), 150);
             CanvasUtils.drawImage(ctx, Math.max(20, Math.min(this.width - 20, imageData.imageX)), this.axisY, displayHeight * Math.sign(imageData.imageHeight), imageData.isReal, imageData.isInverted);
-            CanvasUtils.drawLabel(ctx, 'Bild', imageData.imageX, this.axisY + (imageData.isInverted ? displayHeight + 25 : 25), this.isDark);
+            CanvasUtils.drawLabel(ctx, t('imageLabel'), imageData.imageX, this.axisY + (imageData.isInverted ? displayHeight + 25 : 25), this.isDark);
         }
 
         this.drawRays(imageData);
@@ -433,16 +433,16 @@ const ConcaveMirrorLab = {
 
     updateInfoPanel(imageData) {
         if (imageData.atInfinity) {
-            document.getElementById('concaveMirrorImageType').textContent = 'I oändligheten';
+            document.getElementById('concaveMirrorImageType').textContent = t('atInfinity');
             document.getElementById('concaveMirrorImageOrientation').textContent = '-';
             document.getElementById('concaveMirrorImageSize').textContent = '-';
             document.getElementById('concaveMirrorMagnification').textContent = '∞';
             return;
         }
-        document.getElementById('concaveMirrorImageType').textContent = imageData.isReal ? 'Verklig' : 'Virtuell';
-        document.getElementById('concaveMirrorImageOrientation').textContent = imageData.isInverted ? 'Omvänd' : 'Upprätt';
+        document.getElementById('concaveMirrorImageType').textContent = imageData.isReal ? t('real') : t('virtual');
+        document.getElementById('concaveMirrorImageOrientation').textContent = imageData.isInverted ? t('inverted') : t('upright');
         const sizeRatio = Math.abs(imageData.magnification);
-        document.getElementById('concaveMirrorImageSize').textContent = Math.abs(sizeRatio - 1) < 0.05 ? 'Lika stor' : (sizeRatio > 1 ? 'Förstorad' : 'Förminskad');
+        document.getElementById('concaveMirrorImageSize').textContent = Math.abs(sizeRatio - 1) < 0.05 ? t('sameSize') : (sizeRatio > 1 ? t('enlarged') : t('reduced'));
         document.getElementById('concaveMirrorMagnification').textContent = imageData.magnification.toFixed(2) + 'x';
     }
 };
@@ -545,14 +545,14 @@ const ConvexMirrorLab = {
         ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillStyle = this.isDark ? '#6699cc' : '#4477aa';
         ctx.textAlign = 'center';
-        ctx.fillText('← Klicka & dra för att flytta →', this.width / 2, 25);
+        ctx.fillText(t('dragToMove'), this.width / 2, 25);
 
         CanvasUtils.drawObject(ctx, this.objectX, this.axisY, this.objectHeight, CanvasUtils.colors.object);
-        CanvasUtils.drawLabel(ctx, 'Föremål', this.objectX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('objectLabel'), this.objectX, this.axisY + 25, this.isDark);
 
         const imageData = this.calculateImage();
         CanvasUtils.drawImage(ctx, imageData.imageX, this.axisY, imageData.imageHeight, false, false);
-        CanvasUtils.drawLabel(ctx, 'Bild', imageData.imageX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('imageLabel'), imageData.imageX, this.axisY + 25, this.isDark);
 
         this.drawRays(imageData);
         this.updateInfoPanel(imageData);
@@ -576,10 +576,10 @@ const ConvexMirrorLab = {
     },
 
     updateInfoPanel(imageData) {
-        document.getElementById('convexMirrorImageType').textContent = 'Virtuell';
-        document.getElementById('convexMirrorImageOrientation').textContent = 'Upprätt';
+        document.getElementById('convexMirrorImageType').textContent = t('virtual');
+        document.getElementById('convexMirrorImageOrientation').textContent = t('upright');
         const sizeRatio = Math.abs(imageData.magnification);
-        document.getElementById('convexMirrorImageSize').textContent = sizeRatio > 1 ? 'Förstorad' : 'Förminskad';
+        document.getElementById('convexMirrorImageSize').textContent = sizeRatio > 1 ? t('enlarged') : t('reduced');
         document.getElementById('convexMirrorMagnification').textContent = imageData.magnification.toFixed(2) + 'x';
     }
 };
@@ -688,16 +688,16 @@ const ConvexLensLab = {
         ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillStyle = this.isDark ? '#6699cc' : '#4477aa';
         ctx.textAlign = 'center';
-        ctx.fillText('← Klicka & dra för att flytta →', this.width / 2, 25);
+        ctx.fillText(t('dragToMove'), this.width / 2, 25);
 
         CanvasUtils.drawObject(ctx, this.objectX, this.axisY, this.objectHeight, CanvasUtils.colors.object);
-        CanvasUtils.drawLabel(ctx, 'Föremål', this.objectX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('objectLabel'), this.objectX, this.axisY + 25, this.isDark);
 
         const imageData = this.calculateImage();
         if (!imageData.atInfinity) {
             const displayHeight = Math.min(Math.abs(imageData.imageHeight), 150);
             CanvasUtils.drawImage(ctx, Math.max(20, Math.min(this.width - 20, imageData.imageX)), this.axisY, displayHeight * Math.sign(imageData.imageHeight), imageData.isReal, imageData.isInverted);
-            CanvasUtils.drawLabel(ctx, 'Bild', imageData.imageX, this.axisY + (imageData.isInverted ? displayHeight + 25 : 25), this.isDark);
+            CanvasUtils.drawLabel(ctx, t('imageLabel'), imageData.imageX, this.axisY + (imageData.isInverted ? displayHeight + 25 : 25), this.isDark);
         }
 
         this.drawRays(imageData);
@@ -735,16 +735,16 @@ const ConvexLensLab = {
 
     updateInfoPanel(imageData) {
         if (imageData.atInfinity) {
-            document.getElementById('convexLensImageType').textContent = 'I oändligheten';
+            document.getElementById('convexLensImageType').textContent = t('atInfinity');
             document.getElementById('convexLensImageOrientation').textContent = '-';
             document.getElementById('convexLensImageSize').textContent = '-';
             document.getElementById('convexLensMagnification').textContent = '∞';
             return;
         }
-        document.getElementById('convexLensImageType').textContent = imageData.isReal ? 'Verklig' : 'Virtuell';
-        document.getElementById('convexLensImageOrientation').textContent = imageData.isInverted ? 'Omvänd' : 'Upprätt';
+        document.getElementById('convexLensImageType').textContent = imageData.isReal ? t('real') : t('virtual');
+        document.getElementById('convexLensImageOrientation').textContent = imageData.isInverted ? t('inverted') : t('upright');
         const sizeRatio = Math.abs(imageData.magnification);
-        document.getElementById('convexLensImageSize').textContent = Math.abs(sizeRatio - 1) < 0.05 ? 'Lika stor' : (sizeRatio > 1 ? 'Förstorad' : 'Förminskad');
+        document.getElementById('convexLensImageSize').textContent = Math.abs(sizeRatio - 1) < 0.05 ? t('sameSize') : (sizeRatio > 1 ? t('enlarged') : t('reduced'));
         document.getElementById('convexLensMagnification').textContent = imageData.magnification.toFixed(2) + 'x';
     }
 };
@@ -848,15 +848,15 @@ const ConcaveLensLab = {
         ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillStyle = this.isDark ? '#6699cc' : '#4477aa';
         ctx.textAlign = 'center';
-        ctx.fillText('← Klicka & dra för att flytta →', this.width / 2, 25);
+        ctx.fillText(t('dragToMove'), this.width / 2, 25);
 
         CanvasUtils.drawObject(ctx, this.objectX, this.axisY, this.objectHeight, CanvasUtils.colors.object);
-        CanvasUtils.drawLabel(ctx, 'Föremål', this.objectX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('objectLabel'), this.objectX, this.axisY + 25, this.isDark);
 
         const imageData = this.calculateImage();
         const displayHeight = Math.min(Math.abs(imageData.imageHeight), 150);
         CanvasUtils.drawImage(ctx, imageData.imageX, this.axisY, displayHeight, false, false);
-        CanvasUtils.drawLabel(ctx, 'Bild', imageData.imageX, this.axisY + 25, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('imageLabel'), imageData.imageX, this.axisY + 25, this.isDark);
 
         this.drawRays(imageData);
         this.updateInfoPanel(imageData);
@@ -886,9 +886,9 @@ const ConcaveLensLab = {
     },
 
     updateInfoPanel(imageData) {
-        document.getElementById('concaveLensImageType').textContent = 'Virtuell';
-        document.getElementById('concaveLensImageOrientation').textContent = 'Upprätt';
-        document.getElementById('concaveLensImageSize').textContent = 'Förminskad';
+        document.getElementById('concaveLensImageType').textContent = t('virtual');
+        document.getElementById('concaveLensImageOrientation').textContent = t('upright');
+        document.getElementById('concaveLensImageSize').textContent = t('reduced');
         document.getElementById('concaveLensMagnification').textContent = imageData.magnification.toFixed(2) + 'x';
     }
 };
@@ -998,7 +998,7 @@ const RefractionLab = {
         ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillStyle = this.isDark ? '#6699cc' : '#4477aa';
         ctx.textAlign = 'center';
-        ctx.fillText('← Dra för att ändra vinkel →', this.width / 2, 25);
+        ctx.fillText(t('dragToChangeAngle'), this.width / 2, 25);
 
         const interfaceY = this.height / 2;
         const centerX = this.width / 2;
@@ -1046,8 +1046,8 @@ const RefractionLab = {
 
         CanvasUtils.drawLabel(ctx, `${top.name} (n=${top.n})`, 80, interfaceY - 100, this.isDark);
         CanvasUtils.drawLabel(ctx, `${bottom.name} (n=${bottom.n})`, 80, interfaceY + 100, this.isDark);
-        CanvasUtils.drawLabel(ctx, fromDenser ? 'Optiskt tätare' : 'Optiskt tunnare', 80, interfaceY - 80, this.isDark);
-        CanvasUtils.drawLabel(ctx, fromDenser ? 'Optiskt tunnare' : 'Optiskt tätare', 80, interfaceY + 120, this.isDark);
+        CanvasUtils.drawLabel(ctx, fromDenser ? t('opticallyDenser') : t('opticallyThinner'), 80, interfaceY - 80, this.isDark);
+        CanvasUtils.drawLabel(ctx, fromDenser ? t('opticallyThinner') : t('opticallyDenser'), 80, interfaceY + 120, this.isDark);
 
         ctx.font = '12px -apple-system'; ctx.fillStyle = CanvasUtils.colors.incident; ctx.textAlign = 'left';
         ctx.fillText(`θ₁=${this.incidentAngle}°`, centerX - 70, fromDenser ? interfaceY + 50 : interfaceY - 40);
@@ -1057,9 +1057,9 @@ const RefractionLab = {
         }
 
         document.getElementById('refractionIncident').textContent = this.incidentAngle + '°';
-        document.getElementById('refractionRefracted').textContent = isTIR ? 'Totalreflektion!' : (refractedAngle ? refractedAngle.toFixed(1) + '°' : '-');
-        document.getElementById('refractionCritical').textContent = criticalAngle ? criticalAngle.toFixed(1) + '°' : 'Finns ej';
-        document.getElementById('refractionStatus').textContent = isTIR ? 'Totalreflektion' : 'Brytning';
+        document.getElementById('refractionRefracted').textContent = isTIR ? t('totalReflection') : (refractedAngle ? refractedAngle.toFixed(1) + '°' : '-');
+        document.getElementById('refractionCritical').textContent = criticalAngle ? criticalAngle.toFixed(1) + '°' : t('notAvailable');
+        document.getElementById('refractionStatus').textContent = isTIR ? t('totalReflectionShort') : t('refraction');
     }
 };
 
@@ -1068,13 +1068,17 @@ const PrismLab = {
     canvas: null, ctx: null, width: 0, height: 0, isDark: false,
     prismAngle: 60, lightType: 'white',
     colors: {
-        red: { color: '#ff0000', wavelength: 700, name: 'Rött', n: 1.513 },
-        orange: { color: '#ff7f00', wavelength: 620, name: 'Orange', n: 1.517 },
-        yellow: { color: '#ffff00', wavelength: 580, name: 'Gult', n: 1.519 },
-        green: { color: '#00ff00', wavelength: 550, name: 'Grönt', n: 1.522 },
-        blue: { color: '#0000ff', wavelength: 470, name: 'Blått', n: 1.528 },
-        indigo: { color: '#4b0082', wavelength: 445, name: 'Indigo', n: 1.531 },
-        violet: { color: '#9400d3', wavelength: 400, name: 'Violett', n: 1.536 }
+        red: { color: '#ff0000', wavelength: 700, nameKey: 'colorRed', n: 1.513 },
+        orange: { color: '#ff7f00', wavelength: 620, nameKey: 'colorOrange', n: 1.517 },
+        yellow: { color: '#ffff00', wavelength: 580, nameKey: 'colorYellow', n: 1.519 },
+        green: { color: '#00ff00', wavelength: 550, nameKey: 'colorGreen', n: 1.522 },
+        blue: { color: '#0000ff', wavelength: 470, nameKey: 'colorBlue', n: 1.528 },
+        indigo: { color: '#4b0082', wavelength: 445, nameKey: 'colorIndigo', n: 1.531 },
+        violet: { color: '#9400d3', wavelength: 400, nameKey: 'colorViolet', n: 1.536 }
+    },
+
+    getColorName(key) {
+        return t(this.colors[key].nameKey);
     },
 
     guidedSteps: [
@@ -1125,7 +1129,7 @@ const PrismLab = {
         ctx.strokeStyle = this.lightType === 'white' ? (this.isDark ? '#ffffff' : '#333333') : this.colors[this.lightType].color;
         ctx.lineWidth = 4;
         ctx.beginPath(); ctx.moveTo(rayStartX, rayStartY); ctx.lineTo(entryPoint.x, entryPoint.y); ctx.stroke();
-        CanvasUtils.drawLabel(ctx, this.lightType === 'white' ? 'Vitt ljus' : this.colors[this.lightType].name + ' ljus', rayStartX + 30, rayStartY - 20, this.isDark);
+        CanvasUtils.drawLabel(ctx, this.lightType === 'white' ? t('whiteLightLabel') : this.getColorName(this.lightType) + ' ' + t('lightSuffix'), rayStartX + 30, rayStartY - 20, this.isDark);
 
         ctx.strokeStyle = this.isDark ? '#aaaaaa' : '#666666';
         ctx.lineWidth = 3;
@@ -1145,7 +1149,7 @@ const PrismLab = {
                 ctx.beginPath(); ctx.moveTo(exitPoint.x, exitPoint.y); ctx.lineTo(endX, endY); ctx.stroke();
                 // Label every color for better visibility
                 ctx.font = '11px -apple-system'; ctx.fillStyle = colorData.color; ctx.textAlign = 'left';
-                ctx.fillText(`${colorData.name}`, endX + 8, endY + 4);
+                ctx.fillText(`${t(colorData.nameKey)}`, endX + 8, endY + 4);
             });
         } else {
             const colorData = this.colors[this.lightType];
@@ -1156,14 +1160,14 @@ const PrismLab = {
             ctx.strokeStyle = colorData.color; ctx.lineWidth = 4;
             ctx.beginPath(); ctx.moveTo(exitPoint.x, exitPoint.y); ctx.lineTo(endX, endY); ctx.stroke();
             ctx.font = '14px -apple-system'; ctx.fillStyle = colorData.color; ctx.textAlign = 'left';
-            ctx.fillText(`Våglängd: ${colorData.wavelength} nm`, endX + 15, endY);
-            ctx.fillText(`Brytningsindex: ${colorData.n}`, endX + 15, endY + 18);
+            ctx.fillText(`${t('wavelength')} ${colorData.wavelength} nm`, endX + 15, endY);
+            ctx.fillText(`${t('refractiveIndexLabel')} ${colorData.n}`, endX + 15, endY + 18);
         }
 
-        CanvasUtils.drawLabel(ctx, 'Prisma', centerX, centerY + prismSize * 0.35, this.isDark);
+        CanvasUtils.drawLabel(ctx, t('prismLabel'), centerX, centerY + prismSize * 0.35, this.isDark);
 
-        document.getElementById('prismPhenomenon').textContent = this.lightType === 'white' ? 'Dispersion' : 'Enkel brytning';
-        document.getElementById('prismMostBent').textContent = 'Violett (n=1.536)';
-        document.getElementById('prismLeastBent').textContent = 'Rött (n=1.513)';
+        document.getElementById('prismPhenomenon').textContent = this.lightType === 'white' ? t('dispersion') : t('singleRefraction');
+        document.getElementById('prismMostBent').textContent = t('violetN');
+        document.getElementById('prismLeastBent').textContent = t('redN');
     }
 };

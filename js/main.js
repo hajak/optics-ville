@@ -44,21 +44,35 @@ const App = {
         this.applyTranslations();
     },
 
+    setupLangToggle() {
+        const toggleLang = () => {
+            this.currentLang = this.currentLang === 'sv' ? 'en' : 'sv';
+            setLang(this.currentLang); // Update global lang for labs.js
+            const btnText = this.currentLang === 'sv' ? 'EN' : 'SV';
+            document.getElementById('langToggle').textContent = btnText;
+            document.getElementById('welcomeLangToggle').textContent = btnText;
+            localStorage.setItem('optik-labbet-lang', this.currentLang);
+            this.applyTranslations();
+            // Redraw current lab with new language
+            const currentLab = this.labs[this.currentLabIndex];
+            if (currentLab && currentLab.module && currentLab.module.draw) {
+                currentLab.module.draw();
+            }
+        };
+
+        document.getElementById('langToggle').addEventListener('click', toggleLang);
+        document.getElementById('welcomeLangToggle').addEventListener('click', toggleLang);
+    },
+
     loadLang() {
         const savedLang = localStorage.getItem('optik-labbet-lang');
         if (savedLang && (savedLang === 'en' || savedLang === 'sv')) {
             this.currentLang = savedLang;
-            document.getElementById('langToggle').textContent = savedLang === 'sv' ? 'EN' : 'SV';
+            setLang(savedLang); // Update global lang for labs.js
+            const btnText = savedLang === 'sv' ? 'EN' : 'SV';
+            document.getElementById('langToggle').textContent = btnText;
+            document.getElementById('welcomeLangToggle').textContent = btnText;
         }
-    },
-
-    setupLangToggle() {
-        document.getElementById('langToggle').addEventListener('click', () => {
-            this.currentLang = this.currentLang === 'sv' ? 'en' : 'sv';
-            document.getElementById('langToggle').textContent = this.currentLang === 'sv' ? 'EN' : 'SV';
-            localStorage.setItem('optik-labbet-lang', this.currentLang);
-            this.applyTranslations();
-        });
     },
 
     applyTranslations() {
@@ -124,6 +138,45 @@ const App = {
             }
         });
 
+        // Info panel row labels (Typ:, Orientering:, etc.)
+        document.querySelectorAll('.info-row .info-label').forEach(label => {
+            const text = label.textContent;
+            if (text.includes('Typ') || text === 'Type:') label.textContent = t('type');
+            else if (text.includes('Orientering') || text === 'Orientation:') label.textContent = t('orientation');
+            else if (text.includes('Storlek') || text === 'Size:') label.textContent = t('size');
+            else if (text.includes('Förstoring') || text === 'Magnification:') label.textContent = t('magnification');
+            else if (text.includes('Infallsvinkel') || text === 'Incident angle:') label.textContent = t('incidentAngleLabel');
+            else if (text.includes('Brytningsvinkel') || text === 'Refracted angle:') label.textContent = t('refractedAngle');
+            else if (text.includes('Kritisk') || text === 'Critical angle:') label.textContent = t('criticalAngle');
+            else if (text === 'Status:') label.textContent = t('status');
+            else if (text.includes('Fenomen') || text === 'Phenomenon:') label.textContent = t('phenomenon');
+            else if (text.includes('Brytningsindex') || text.includes('Refractive index')) label.textContent = t('refractiveIndex');
+            else if (text.includes('Mest bryts') || text === 'Most bent:') label.textContent = t('mostBent');
+            else if (text.includes('Minst bryts') || text === 'Least bent:') label.textContent = t('leastBent');
+        });
+
+        // Formula displays
+        const planeMirrorFormula = document.getElementById('planeMirrorFormula');
+        if (planeMirrorFormula) planeMirrorFormula.innerHTML = `<strong>${t('reflectionLaw')}</strong> ${t('reflectionFormula')}`;
+
+        const concaveMirrorFormula = document.getElementById('concaveMirrorFormula');
+        if (concaveMirrorFormula) concaveMirrorFormula.innerHTML = `<strong>${t('mirrorFormula')}</strong> ${t('mirrorFormulaConcave')}`;
+
+        const convexMirrorFormula = document.getElementById('convexMirrorFormula');
+        if (convexMirrorFormula) convexMirrorFormula.innerHTML = `<strong>${t('mirrorFormula')}</strong> ${t('mirrorFormulaConvex')}`;
+
+        const convexLensFormula = document.getElementById('convexLensFormula');
+        if (convexLensFormula) convexLensFormula.innerHTML = `<strong>${t('lensFormula')}</strong> ${t('lensFormulaConvex')}`;
+
+        const concaveLensFormula = document.getElementById('concaveLensFormula');
+        if (concaveLensFormula) concaveLensFormula.innerHTML = `<strong>${t('lensFormula')}</strong> ${t('lensFormulaConcave')}`;
+
+        const refractionFormula = document.getElementById('refractionFormula');
+        if (refractionFormula) refractionFormula.innerHTML = `<strong>${t('snellsLaw')}</strong> ${t('snellsLawFormula')}`;
+
+        const prismFormulaDisplay = document.getElementById('prismFormulaDisplay');
+        if (prismFormulaDisplay) prismFormulaDisplay.innerHTML = `<strong>${t('dispersion')}</strong> ${t('dispersionDesc')}`;
+
         // Control labels
         this.updateControlLabels();
 
@@ -151,6 +204,18 @@ const App = {
         if (quizIntro) quizIntro.textContent = t('quizIntro');
         document.getElementById('backToCompletionBtn').textContent = t('back');
         document.getElementById('quizFreeExploreBtn').textContent = t('exploreAgain');
+
+        // Quiz questions
+        const quizList = document.getElementById('quizQuestionsList');
+        const questions = Translations[this.currentLang].quizQuestions || [];
+        if (quizList && questions.length > 0) {
+            quizList.innerHTML = questions.map(item => `
+                <li>
+                    <strong>${item.q}</strong>
+                    <p class="hint">${t('hint')} ${item.h}</p>
+                </li>
+            `).join('');
+        }
 
         // Help modal
         document.getElementById('helpModalCloseBtn').textContent = t('close');
@@ -472,7 +537,7 @@ const App = {
         lab.module.resize();
         lab.module.setDarkMode(this.isDarkMode);
 
-        document.getElementById('progressText').textContent = this.currentLang === 'sv' ? 'Fritt läge' : 'Free mode';
+        document.getElementById('progressText').textContent = this.t('freeMode');
     },
 
     switchToLab(labIndex) {
