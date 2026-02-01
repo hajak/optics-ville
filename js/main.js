@@ -1,7 +1,5 @@
 const App = {
     currentLabIndex: 0,
-    currentStepIndex: 0,
-    isInFreeMode: false,
     isDarkMode: false,
 
     labs: [
@@ -11,7 +9,8 @@ const App = {
         { id: 'convex-lens', name: 'Konvex lins', module: ConvexLensLab },
         { id: 'concave-lens', name: 'Konkav lins', module: ConcaveLensLab },
         { id: 'refraction', name: 'Brytning', module: RefractionLab },
-        { id: 'prism', name: 'Prisma', module: PrismLab }
+        { id: 'prism', name: 'Prisma', module: PrismLab },
+        { id: 'light-builder', name: 'Ljusbyggaren', module: LightBuilderLab }
     ],
 
     init() {
@@ -20,10 +19,11 @@ const App = {
         this.setupThemeToggle();
         this.setupResizeHandler();
         this.setupCompletionButtons();
+        this.setupHelpModal();
+        this.setupLabButtons();
 
         this.labs.forEach(lab => {
             lab.module.init();
-            this.setupLabNavigation(lab.id);
         });
     },
 
@@ -43,16 +43,100 @@ const App = {
             document.getElementById('labInterface').classList.remove('hidden');
             this.startLab(0);
         });
+
+        document.getElementById('startFreeformBtn').addEventListener('click', () => {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('labInterface').classList.remove('hidden');
+            this.startFreeformBuilder();
+        });
     },
 
-    setupLabNavigation(labId) {
-        const prevBtn = document.getElementById(`prevStep-${labId}`);
-        const nextBtn = document.getElementById(`nextStep-${labId}`);
-        const continueBtn = document.getElementById(`continueToNext-${labId}`);
+    startFreeformBuilder() {
+        const builderIndex = this.labs.findIndex(lab => lab.id === 'light-builder');
+        if (builderIndex === -1) return;
 
-        if (prevBtn) prevBtn.addEventListener('click', () => this.previousStep());
-        if (nextBtn) nextBtn.addEventListener('click', () => this.nextStep());
-        if (continueBtn) continueBtn.addEventListener('click', () => this.goToNextLab());
+        this.currentLabIndex = builderIndex;
+
+        document.querySelectorAll('.lab-section').forEach(section => {
+            section.classList.remove('active');
+        });
+
+        document.getElementById('light-builder-lab').classList.add('active');
+
+        const lab = this.labs[builderIndex];
+        lab.module.resize();
+        lab.module.setDarkMode(this.isDarkMode);
+
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('progressText').textContent = 'Fritt byggande';
+    },
+
+    setupHelpModal() {
+        const modal = document.getElementById('helpModal');
+        const closeBtn = document.getElementById('helpModalClose');
+        const closeFooterBtn = document.getElementById('helpModalCloseBtn');
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        closeFooterBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    },
+
+    setupLabButtons() {
+        document.querySelectorAll('.help-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const labId = btn.dataset.lab;
+                this.showHelpModal(labId);
+            });
+        });
+
+        document.querySelectorAll('.next-lab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.goToNextLab();
+            });
+        });
+    },
+
+    showHelpModal(labId) {
+        const lab = this.labs.find(l => l.id === labId);
+        if (!lab) return;
+
+        const steps = lab.module.guidedSteps || [];
+        const modal = document.getElementById('helpModal');
+        const title = document.getElementById('helpModalTitle');
+        const content = document.getElementById('helpModalContent');
+
+        title.textContent = `Hjälp: ${lab.name}`;
+
+        if (steps.length === 0) {
+            content.innerHTML = '<p class="builder-no-selection">Ingen hjälp tillgänglig för denna laboration.</p>';
+        } else {
+            content.innerHTML = steps.map((step, i) => `
+                <div class="help-step">
+                    <div class="help-step-header">
+                        <span class="help-step-number">${i + 1}</span>
+                        <span class="help-step-concept">${step.concept || 'Tips'}</span>
+                    </div>
+                    <p class="help-step-text">${step.text}</p>
+                </div>
+            `).join('');
+        }
+
+        modal.classList.remove('hidden');
     },
 
     setupThemeToggle() {
@@ -89,8 +173,6 @@ const App = {
     setupCompletionButtons() {
         document.getElementById('restartBtn').addEventListener('click', () => {
             this.currentLabIndex = 0;
-            this.currentStepIndex = 0;
-            this.isInFreeMode = false;
             document.getElementById('completion-screen').classList.remove('active');
             this.startLab(0);
         });
@@ -99,7 +181,6 @@ const App = {
             this.enterFreeExploreMode();
         });
 
-        // Quiz buttons
         document.getElementById('startQuizBtn').addEventListener('click', () => {
             document.getElementById('completion-screen').classList.remove('active');
             document.getElementById('quiz-screen').classList.add('active');
@@ -118,8 +199,6 @@ const App = {
 
     startLab(labIndex) {
         this.currentLabIndex = labIndex;
-        this.currentStepIndex = 0;
-        this.isInFreeMode = false;
 
         document.querySelectorAll('.lab-section').forEach(section => {
             section.classList.remove('active');
@@ -132,92 +211,14 @@ const App = {
         lab.module.setDarkMode(this.isDarkMode);
 
         this.updateProgress();
-        this.updateGuidedContent();
-        this.showGuidedPanel();
     },
 
     updateProgress() {
         const totalLabs = this.labs.length;
-        const progress = (this.currentLabIndex / totalLabs) * 100;
+        const progress = ((this.currentLabIndex + 1) / totalLabs) * 100;
 
         document.getElementById('progressFill').style.width = `${progress}%`;
         document.getElementById('progressText').textContent = `Laboration ${this.currentLabIndex + 1}/${totalLabs}`;
-    },
-
-    getCurrentSteps() {
-        const lab = this.labs[this.currentLabIndex];
-        return lab.module.guidedSteps || [];
-    },
-
-    getLabId() {
-        return this.labs[this.currentLabIndex].id;
-    },
-
-    updateGuidedContent() {
-        const steps = this.getCurrentSteps();
-        const step = steps[this.currentStepIndex];
-        const labId = this.getLabId();
-
-        if (!step) return;
-
-        document.getElementById(`guidedText-${labId}`).textContent = step.text;
-        document.getElementById(`guideTitle-${labId}`).textContent = step.concept || 'Handledning';
-        document.getElementById(`stepIndicator-${labId}`).textContent = `Steg ${this.currentStepIndex + 1}/${steps.length}`;
-
-        document.getElementById(`prevStep-${labId}`).disabled = this.currentStepIndex === 0;
-
-        const isLastStep = this.currentStepIndex === steps.length - 1;
-        const nextBtn = document.getElementById(`nextStep-${labId}`);
-
-        if (isLastStep) {
-            nextBtn.textContent = 'Avsluta guiden \u2192';
-        } else {
-            nextBtn.textContent = 'Nästa \u2192';
-        }
-    },
-
-    nextStep() {
-        const steps = this.getCurrentSteps();
-
-        if (this.currentStepIndex < steps.length - 1) {
-            this.currentStepIndex++;
-            this.updateGuidedContent();
-        } else {
-            this.enterFreeMode();
-        }
-    },
-
-    previousStep() {
-        if (this.currentStepIndex > 0) {
-            this.currentStepIndex--;
-            this.updateGuidedContent();
-        }
-    },
-
-    enterFreeMode() {
-        this.isInFreeMode = true;
-        const labId = this.getLabId();
-
-        document.getElementById(`guidedContent-${labId}`).style.display = 'none';
-        document.getElementById(`freeModeIndicator-${labId}`).classList.remove('hidden');
-
-        const isLastLab = this.currentLabIndex === this.labs.length - 1;
-        const continueBtn = document.getElementById(`continueToNext-${labId}`);
-
-        if (isLastLab) {
-            continueBtn.textContent = 'Avsluta alla laborationer \u2192';
-        } else {
-            continueBtn.textContent = `Fortsätt till ${this.labs[this.currentLabIndex + 1].name} \u2192`;
-        }
-    },
-
-    showGuidedPanel() {
-        const labId = this.getLabId();
-        const guidedContent = document.getElementById(`guidedContent-${labId}`);
-        const freeModeIndicator = document.getElementById(`freeModeIndicator-${labId}`);
-
-        if (guidedContent) guidedContent.style.display = 'flex';
-        if (freeModeIndicator) freeModeIndicator.classList.add('hidden');
     },
 
     goToNextLab() {
@@ -243,23 +244,12 @@ const App = {
         document.getElementById('completion-screen').classList.remove('active');
 
         this.currentLabIndex = 0;
-        document.getElementById(`${this.labs[0].id}-lab`).classList.add('active');
+        const lab = this.labs[0];
+        document.getElementById(`${lab.id}-lab`).classList.add('active');
 
-        const labId = this.labs[0].id;
-        document.getElementById(`guidedContent-${labId}`).style.display = 'none';
+        lab.module.resize();
+        lab.module.setDarkMode(this.isDarkMode);
 
-        const freeIndicator = document.getElementById(`freeModeIndicator-${labId}`);
-        freeIndicator.classList.remove('hidden');
-        freeIndicator.innerHTML = `
-            <span>\uD83C\uDFAE Fritt utforskande - välj laboration:</span>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                ${this.labs.map((lab, i) => `
-                    <button class="btn-small" onclick="App.switchToLab(${i})">${lab.name}</button>
-                `).join('')}
-            </div>
-        `;
-
-        this.labs[0].module.resize();
         document.getElementById('progressText').textContent = 'Fritt läge';
     },
 
@@ -275,21 +265,7 @@ const App = {
         lab.module.resize();
         lab.module.setDarkMode(this.isDarkMode);
 
-        const labId = lab.id;
-        document.getElementById(`guidedContent-${labId}`).style.display = 'none';
-
-        const freeIndicator = document.getElementById(`freeModeIndicator-${labId}`);
-        freeIndicator.classList.remove('hidden');
-        freeIndicator.innerHTML = `
-            <span>\uD83C\uDFAE Fritt utforskande - välj laboration:</span>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                ${this.labs.map((l, i) => `
-                    <button class="btn-small${i === labIndex ? ' active' : ''}" onclick="App.switchToLab(${i})">${l.name}</button>
-                `).join('')}
-            </div>
-        `;
-
-        document.getElementById('progressText').textContent = `${lab.name} - Fritt läge`;
+        document.getElementById('progressText').textContent = `${lab.name}`;
     }
 };
 

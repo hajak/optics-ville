@@ -56,10 +56,17 @@
                             <span class="lab-number">7</span>
                             <span class="lab-title">Prisma & Färger</span>
                         </div>
+                        <div class="lab-card">
+                            <span class="lab-number">8</span>
+                            <span class="lab-title">Ljusbyggaren</span>
+                        </div>
                     </div>
                 </div>
 
-                <button class="start-btn" id="startBtn">Starta första laborationen</button>
+                <div class="start-buttons">
+                    <button class="start-btn" id="startBtn">Starta laborationerna</button>
+                    <button class="start-btn start-btn-secondary" id="startFreeformBtn">Fritt byggande</button>
+                </div>
             </div>
         </div>
 
@@ -71,7 +78,7 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <span class="progress-text" id="progressText">Laboration 1/7</span>
+                    <span class="progress-text" id="progressText">Laboration 1/8</span>
                 </div>
                 <button class="theme-toggle" id="themeToggle" aria-label="Växla mörkt läge">&#x1F319;</button>
             </header>
@@ -81,23 +88,9 @@
                 <section class="lab-section active" id="plane-mirror-lab">
                     <div class="lab-header">
                         <h2>Laboration 1: Plan spegel</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-plane-mirror">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-plane-mirror">Steg 1/5</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-plane-mirror">
-                            <p class="guided-text" id="guidedText-plane-mirror">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-plane-mirror" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-plane-mirror">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-plane-mirror">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-plane-mirror">Fortsätt till nästa laboration &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="plane-mirror" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="plane-mirror">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -133,23 +126,9 @@
                 <section class="lab-section" id="concave-mirror-lab">
                     <div class="lab-header">
                         <h2>Laboration 2: Konkav spegel (hålspegel)</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-concave-mirror">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-concave-mirror">Steg 1/6</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-concave-mirror">
-                            <p class="guided-text" id="guidedText-concave-mirror">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-concave-mirror" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-concave-mirror">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-concave-mirror">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-concave-mirror">Fortsätt till nästa laboration &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="concave-mirror" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="concave-mirror">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -191,23 +170,9 @@
                 <section class="lab-section" id="convex-mirror-lab">
                     <div class="lab-header">
                         <h2>Laboration 3: Konvex spegel (kupig spegel)</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-convex-mirror">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-convex-mirror">Steg 1/4</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-convex-mirror">
-                            <p class="guided-text" id="guidedText-convex-mirror">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-convex-mirror" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-convex-mirror">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-convex-mirror">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-convex-mirror">Fortsätt till nästa laboration &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="convex-mirror" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="convex-mirror">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -249,23 +214,9 @@
                 <section class="lab-section" id="convex-lens-lab">
                     <div class="lab-header">
                         <h2>Laboration 4: Konvex lins (samlande lins)</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-convex-lens">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-convex-lens">Steg 1/7</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-convex-lens">
-                            <p class="guided-text" id="guidedText-convex-lens">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-convex-lens" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-convex-lens">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-convex-lens">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-convex-lens">Fortsätt till nästa laboration &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="convex-lens" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="convex-lens">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -307,23 +258,9 @@
                 <section class="lab-section" id="concave-lens-lab">
                     <div class="lab-header">
                         <h2>Laboration 5: Konkav lins (spridande lins)</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-concave-lens">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-concave-lens">Steg 1/5</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-concave-lens">
-                            <p class="guided-text" id="guidedText-concave-lens">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-concave-lens" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-concave-lens">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-concave-lens">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-concave-lens">Fortsätt till nästa laboration &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="concave-lens" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="concave-lens">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -365,23 +302,9 @@
                 <section class="lab-section" id="refraction-lab">
                     <div class="lab-header">
                         <h2>Laboration 6: Ljusets brytning</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-refraction">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-refraction">Steg 1/8</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-refraction">
-                            <p class="guided-text" id="guidedText-refraction">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-refraction" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-refraction">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-refraction">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-refraction">Fortsätt till nästa laboration &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="refraction" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="refraction">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -431,23 +354,9 @@
                 <section class="lab-section" id="prism-lab">
                     <div class="lab-header">
                         <h2>Laboration 7: Prisma och färgspektrum</h2>
-                    </div>
-                    <div class="guided-panel">
-                        <div class="guide-header">
-                            <span class="guide-icon">&#x1F4A1;</span>
-                            <span class="guide-title" id="guideTitle-prism">Handledning</span>
-                            <span class="step-indicator" id="stepIndicator-prism">Steg 1/8</span>
-                        </div>
-                        <div class="guided-content" id="guidedContent-prism">
-                            <p class="guided-text" id="guidedText-prism">Välkommen!</p>
-                            <div class="guide-actions">
-                                <button class="nav-btn" id="prevStep-prism" disabled>&#x2190; Föregående</button>
-                                <button class="nav-btn primary" id="nextStep-prism">Nästa &#x2192;</button>
-                            </div>
-                        </div>
-                        <div class="free-mode-indicator hidden" id="freeModeIndicator-prism">
-                            <span>&#x1F3AE; Fritt utforskande - experimentera själv!</span>
-                            <button class="btn-small" id="continueToNext-prism">Avsluta alla laborationer &#x2192;</button>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="prism" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="prism">Nästa laboration &#x2192;</button>
                         </div>
                     </div>
                     <div class="canvas-container">
@@ -491,6 +400,100 @@
                         <div class="formula-display">
                             <strong>Dispersion:</strong> Olika våglängder har olika brytningsindex
                         </div>
+                    </div>
+                </section>
+
+                <!-- Lab 8: Light Builder -->
+                <section class="lab-section" id="light-builder-lab">
+                    <div class="lab-header">
+                        <h2>Laboration 8: Ljusbyggarens Verkstad</h2>
+                        <div class="lab-header-actions">
+                            <button class="help-btn" data-lab="light-builder" title="Visa hjälp">?</button>
+                            <button class="next-lab-btn" data-lab="light-builder">Avsluta &#x2192;</button>
+                        </div>
+                    </div>
+                    <div class="builder-layout">
+                        <div class="builder-toolbar">
+                            <div class="toolbar-section">
+                                <div class="toolbar-title">Verktyg</div>
+                                <button class="builder-tool-btn active" data-tool="select" title="Välj (Esc)">
+                                    <span class="tool-icon">&#x1F446;</span>
+                                    <span class="tool-label">Välj</span>
+                                </button>
+                            </div>
+                            <div class="toolbar-section">
+                                <div class="toolbar-title">Ljuskällor</div>
+                                <button class="builder-tool-btn" data-tool="light-parallel" title="Parallellt ljus">
+                                    <span class="tool-icon">&#x2600;</span>
+                                    <span class="tool-label">Parallell</span>
+                                </button>
+                                <button class="builder-tool-btn" data-tool="light-point" title="Punktljus">
+                                    <span class="tool-icon">&#x1F4A1;</span>
+                                    <span class="tool-label">Punkt</span>
+                                </button>
+                            </div>
+                            <div class="toolbar-section">
+                                <div class="toolbar-title">Linser</div>
+                                <button class="builder-tool-btn" data-tool="convex-lens" title="Konvex lins (samlande)">
+                                    <span class="tool-icon">&#x1F50D;</span>
+                                    <span class="tool-label">Konvex</span>
+                                </button>
+                                <button class="builder-tool-btn" data-tool="concave-lens" title="Konkav lins (spridande)">
+                                    <span class="tool-icon">&#x1F50E;</span>
+                                    <span class="tool-label">Konkav</span>
+                                </button>
+                            </div>
+                            <div class="toolbar-section">
+                                <div class="toolbar-title">Speglar</div>
+                                <button class="builder-tool-btn" data-tool="plane-mirror" title="Plan spegel">
+                                    <span class="tool-icon">|</span>
+                                    <span class="tool-label">Plan</span>
+                                </button>
+                                <button class="builder-tool-btn" data-tool="convex-mirror" title="Konvex spegel">
+                                    <span class="tool-icon">)</span>
+                                    <span class="tool-label">Konvex</span>
+                                </button>
+                                <button class="builder-tool-btn" data-tool="concave-mirror" title="Konkav spegel">
+                                    <span class="tool-icon">(</span>
+                                    <span class="tool-label">Konkav</span>
+                                </button>
+                            </div>
+                            <div class="toolbar-section">
+                                <div class="toolbar-title">Övrigt</div>
+                                <button class="builder-tool-btn" data-tool="prism" title="Prisma">
+                                    <span class="tool-icon">&#x25B3;</span>
+                                    <span class="tool-label">Prisma</span>
+                                </button>
+                                <button class="builder-tool-btn" data-tool="liquid-box" title="Vätskebehållare">
+                                    <span class="tool-icon">&#x25A1;</span>
+                                    <span class="tool-label">Vätska</span>
+                                </button>
+                            </div>
+                            <div class="toolbar-section toolbar-actions">
+                                <button class="builder-clear-btn" id="builderClearBtn">Rensa allt</button>
+                            </div>
+                        </div>
+                        <div class="builder-canvas-area">
+                            <div class="canvas-container builder-canvas">
+                                <canvas id="lightBuilderCanvas"></canvas>
+                            </div>
+                            <div class="builder-canvas-controls">
+                                <button class="builder-zoom-btn" id="builderZoomOut" title="Zooma ut (-)">-</button>
+                                <span class="builder-zoom-level" id="builderZoomLevel">100%</span>
+                                <button class="builder-zoom-btn" id="builderZoomIn" title="Zooma in (+)">+</button>
+                                <button class="builder-zoom-btn" id="builderZoomReset" title="Återställ vy">&#x21BA;</button>
+                            </div>
+                        </div>
+                        <div class="builder-properties">
+                            <div class="properties-title">Egenskaper</div>
+                            <div class="properties-content" id="builderPropertiesContent">
+                                <p class="builder-no-selection">Välj ett element för att se egenskaper</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="builder-stats-bar">
+                        <span id="builderStats">Ljuskällor: 0 | Element: 0 | Strålar: 0</span>
+                        <span class="builder-shortcuts">R = rotera | Del = ta bort | D = duplicera | Piltangenter = flytta</span>
                     </div>
                 </section>
 
@@ -571,8 +574,24 @@
         </div>
     </div>
 
+    <!-- Help Modal -->
+    <div class="help-modal-overlay hidden" id="helpModal">
+        <div class="help-modal">
+            <div class="help-modal-header">
+                <h3 id="helpModalTitle">Hjälp</h3>
+                <button class="help-modal-close" id="helpModalClose">&times;</button>
+            </div>
+            <div class="help-modal-content" id="helpModalContent">
+            </div>
+            <div class="help-modal-footer">
+                <button class="btn" id="helpModalCloseBtn">Stäng</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/canvas.js"></script>
     <script src="js/labs.js"></script>
+    <script src="js/light-builder.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

@@ -162,26 +162,28 @@ const CanvasUtils = {
     drawConcaveLens(ctx, x, axisY, height, isDark) {
         const color = isDark ? '#bb86fc' : '#9c27b0';
         const halfHeight = height / 2;
-        const indent = 15;
-        const edgeWidth = 8;
+        const edgeThickness = 15;
+        const curveDepth = 12;
 
         ctx.strokeStyle = color;
-        ctx.fillStyle = isDark ? 'rgba(187, 134, 252, 0.1)' : 'rgba(156, 39, 176, 0.1)';
+        ctx.fillStyle = isDark ? 'rgba(187, 134, 252, 0.2)' : 'rgba(156, 39, 176, 0.15)';
         ctx.lineWidth = 3;
 
         ctx.beginPath();
-        ctx.moveTo(x - edgeWidth, axisY - halfHeight);
-        ctx.bezierCurveTo(
-            x + indent, axisY - halfHeight / 2,
-            x + indent, axisY + halfHeight / 2,
-            x - edgeWidth, axisY + halfHeight
+        // Left edge (curves inward - bowing right)
+        ctx.moveTo(x - edgeThickness, axisY - halfHeight);
+        ctx.quadraticCurveTo(
+            x - edgeThickness + curveDepth, axisY,
+            x - edgeThickness, axisY + halfHeight
         );
-        ctx.lineTo(x + edgeWidth, axisY + halfHeight);
-        ctx.bezierCurveTo(
-            x - indent, axisY + halfHeight / 2,
-            x - indent, axisY - halfHeight / 2,
-            x + edgeWidth, axisY - halfHeight
+        // Bottom edge
+        ctx.lineTo(x + edgeThickness, axisY + halfHeight);
+        // Right edge (curves inward - bowing left)
+        ctx.quadraticCurveTo(
+            x + edgeThickness - curveDepth, axisY,
+            x + edgeThickness, axisY - halfHeight
         );
+        // Top edge
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
@@ -208,66 +210,121 @@ const CanvasUtils = {
     },
 
     drawConcaveMirror(ctx, x, axisY, height, focalLength, isDark) {
-        const color = isDark ? '#90a4ae' : '#607d8b';
         const halfHeight = height / 2;
         const curvature = focalLength / 2;
 
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 4;
-
-        ctx.beginPath();
-        ctx.moveTo(x + curvature * 0.3, axisY - halfHeight);
-        ctx.quadraticCurveTo(x - curvature * 0.2, axisY, x + curvature * 0.3, axisY + halfHeight);
-        ctx.stroke();
-
-        for (let i = -halfHeight; i <= halfHeight; i += 15) {
-            const offset = (i * i) / (4 * curvature) * 0.3;
-            ctx.beginPath();
-            ctx.moveTo(x + offset + curvature * 0.3, axisY + i);
-            ctx.lineTo(x + offset + curvature * 0.3 + 8, axisY + i + 5);
-            ctx.stroke();
+        const gradient = ctx.createLinearGradient(x - 10, axisY, x + 10, axisY);
+        if (isDark) {
+            gradient.addColorStop(0, '#78909c');
+            gradient.addColorStop(0.3, '#cfd8dc');
+            gradient.addColorStop(0.5, '#eceff1');
+            gradient.addColorStop(0.7, '#cfd8dc');
+            gradient.addColorStop(1, '#78909c');
+        } else {
+            gradient.addColorStop(0, '#90a4ae');
+            gradient.addColorStop(0.3, '#cfd8dc');
+            gradient.addColorStop(0.5, '#ffffff');
+            gradient.addColorStop(0.7, '#cfd8dc');
+            gradient.addColorStop(1, '#90a4ae');
         }
-    },
 
-    drawConvexMirror(ctx, x, axisY, height, focalLength, isDark) {
-        const color = isDark ? '#90a4ae' : '#607d8b';
-        const halfHeight = height / 2;
-        const curvature = focalLength / 2;
-
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 4;
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
 
         ctx.beginPath();
         ctx.moveTo(x - curvature * 0.3, axisY - halfHeight);
         ctx.quadraticCurveTo(x + curvature * 0.2, axisY, x - curvature * 0.3, axisY + halfHeight);
         ctx.stroke();
 
-        for (let i = -halfHeight; i <= halfHeight; i += 15) {
-            const offset = (i * i) / (4 * curvature) * 0.3;
-            ctx.beginPath();
-            ctx.moveTo(x - offset - curvature * 0.3, axisY + i);
-            ctx.lineTo(x - offset - curvature * 0.3 + 8, axisY + i + 5);
-            ctx.stroke();
+        ctx.fillStyle = isDark ? '#b0bec5' : '#607d8b';
+        const topOffset = (halfHeight * halfHeight) / (4 * curvature) * 0.3;
+        ctx.beginPath();
+        ctx.arc(x - topOffset - curvature * 0.3, axisY - halfHeight, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x - topOffset - curvature * 0.3, axisY + halfHeight, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.lineCap = 'butt';
+    },
+
+    drawConvexMirror(ctx, x, axisY, height, focalLength, isDark) {
+        const halfHeight = height / 2;
+        const curvature = focalLength / 2;
+
+        const gradient = ctx.createLinearGradient(x - 10, axisY, x + 10, axisY);
+        if (isDark) {
+            gradient.addColorStop(0, '#78909c');
+            gradient.addColorStop(0.3, '#cfd8dc');
+            gradient.addColorStop(0.5, '#eceff1');
+            gradient.addColorStop(0.7, '#cfd8dc');
+            gradient.addColorStop(1, '#78909c');
+        } else {
+            gradient.addColorStop(0, '#90a4ae');
+            gradient.addColorStop(0.3, '#cfd8dc');
+            gradient.addColorStop(0.5, '#ffffff');
+            gradient.addColorStop(0.7, '#cfd8dc');
+            gradient.addColorStop(1, '#90a4ae');
         }
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+
+        ctx.beginPath();
+        ctx.moveTo(x + curvature * 0.3, axisY - halfHeight);
+        ctx.quadraticCurveTo(x - curvature * 0.2, axisY, x + curvature * 0.3, axisY + halfHeight);
+        ctx.stroke();
+
+        ctx.fillStyle = isDark ? '#b0bec5' : '#607d8b';
+        const topOffset = (halfHeight * halfHeight) / (4 * curvature) * 0.3;
+        ctx.beginPath();
+        ctx.arc(x + topOffset + curvature * 0.3, axisY - halfHeight, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x + topOffset + curvature * 0.3, axisY + halfHeight, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.lineCap = 'butt';
     },
 
     drawPlaneMirror(ctx, x, axisY, height, isDark) {
-        const color = isDark ? '#90a4ae' : '#607d8b';
         const halfHeight = height / 2;
 
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 4;
+        const gradient = ctx.createLinearGradient(x - 5, axisY, x + 5, axisY);
+        if (isDark) {
+            gradient.addColorStop(0, '#78909c');
+            gradient.addColorStop(0.3, '#cfd8dc');
+            gradient.addColorStop(0.5, '#eceff1');
+            gradient.addColorStop(0.7, '#cfd8dc');
+            gradient.addColorStop(1, '#78909c');
+        } else {
+            gradient.addColorStop(0, '#90a4ae');
+            gradient.addColorStop(0.3, '#cfd8dc');
+            gradient.addColorStop(0.5, '#ffffff');
+            gradient.addColorStop(0.7, '#cfd8dc');
+            gradient.addColorStop(1, '#90a4ae');
+        }
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+
         ctx.beginPath();
         ctx.moveTo(x, axisY - halfHeight);
         ctx.lineTo(x, axisY + halfHeight);
         ctx.stroke();
 
-        for (let i = -halfHeight; i <= halfHeight; i += 15) {
-            ctx.beginPath();
-            ctx.moveTo(x, axisY + i);
-            ctx.lineTo(x + 8, axisY + i + 8);
-            ctx.stroke();
-        }
+        ctx.fillStyle = isDark ? '#b0bec5' : '#607d8b';
+        ctx.beginPath();
+        ctx.arc(x, axisY - halfHeight, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x, axisY + halfHeight, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.lineCap = 'butt';
     },
 
     drawLabel(ctx, text, x, y, isDark, align = 'center') {
