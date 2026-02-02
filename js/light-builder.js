@@ -67,6 +67,11 @@ const LightBuilderLab = {
         this.setupToolbar();
         this.setupKeyboardShortcuts();
         this.resize();
+
+        // Center the viewport on first load
+        this.state.offsetX = this.width / 2;
+        this.state.offsetY = this.height / 2;
+        this.draw();
     },
 
     setupEventListeners() {
@@ -391,8 +396,8 @@ const LightBuilderLab = {
 
     resetView() {
         this.state.zoom = 1.0;
-        this.state.offsetX = 0;
-        this.state.offsetY = 0;
+        this.state.offsetX = this.width / 2;
+        this.state.offsetY = this.height / 2;
         const zoomDisplay = document.getElementById('builderZoomLevel');
         if (zoomDisplay) {
             zoomDisplay.textContent = '100%';
