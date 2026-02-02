@@ -1123,7 +1123,7 @@ const PrismLab = {
         const vertices = CanvasUtils.drawPrism(ctx, centerX, centerY, prismSize, this.prismAngle, this.isDark);
 
         const entryPoint = { x: (vertices.apex.x + vertices.bottomLeft.x) / 2, y: (vertices.apex.y + vertices.bottomLeft.y) / 2 };
-        const exitPoint = { x: (vertices.apex.x + vertices.bottomRight.x) / 2 + 15, y: (vertices.apex.y + vertices.bottomRight.y) / 2 };
+        const exitPoint = { x: (vertices.apex.x + vertices.bottomRight.x) / 2, y: (vertices.apex.y + vertices.bottomRight.y) / 2 };
 
         const rayStartX = 20, rayStartY = entryPoint.y - 30;
         ctx.strokeStyle = this.lightType === 'white' ? (this.isDark ? '#ffffff' : '#333333') : this.colors[this.lightType].color;

@@ -177,6 +177,21 @@ const App = {
         const prismFormulaDisplay = document.getElementById('prismFormulaDisplay');
         if (prismFormulaDisplay) prismFormulaDisplay.innerHTML = `<strong>${t('dispersion')}</strong> ${t('dispersionDesc')}`;
 
+        // Translate initial info values (before labs are drawn)
+        const initialValues = {
+            'planeMirrorImageType': 'virtual',
+            'planeMirrorImageOrientation': 'upright',
+            'planeMirrorImageSize': 'sameSize',
+            'refractionStatus': 'refraction',
+            'prismPhenomenon': 'dispersion',
+            'prismMostBent': 'violetN',
+            'prismLeastBent': 'redN'
+        };
+        Object.entries(initialValues).forEach(([id, key]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = t(key);
+        });
+
         // Control labels
         this.updateControlLabels();
 
