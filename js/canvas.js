@@ -212,6 +212,18 @@ const CanvasUtils = {
         const halfHeight = height / 2;
         const curvature = focalLength / 2;
 
+        // Draw dark backing (non-reflective side) - on the RIGHT of the curve
+        const backingWidth = 8;
+        ctx.fillStyle = isDark ? '#1a1a2e' : '#2d3436';
+        ctx.beginPath();
+        ctx.moveTo(x - curvature * 0.3, axisY - halfHeight);
+        ctx.quadraticCurveTo(x + curvature * 0.2, axisY, x - curvature * 0.3, axisY + halfHeight);
+        ctx.lineTo(x - curvature * 0.3 + backingWidth, axisY + halfHeight);
+        ctx.quadraticCurveTo(x + curvature * 0.2 + backingWidth, axisY, x - curvature * 0.3 + backingWidth, axisY - halfHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        // Draw reflective surface (shiny gradient)
         const gradient = ctx.createLinearGradient(x - 10, axisY, x + 10, axisY);
         if (isDark) {
             gradient.addColorStop(0, '#78909c');
@@ -228,22 +240,13 @@ const CanvasUtils = {
         }
 
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 6;
+        ctx.lineWidth = 4;
         ctx.lineCap = 'round';
 
         ctx.beginPath();
         ctx.moveTo(x - curvature * 0.3, axisY - halfHeight);
         ctx.quadraticCurveTo(x + curvature * 0.2, axisY, x - curvature * 0.3, axisY + halfHeight);
         ctx.stroke();
-
-        ctx.fillStyle = isDark ? '#b0bec5' : '#607d8b';
-        const topOffset = (halfHeight * halfHeight) / (4 * curvature) * 0.3;
-        ctx.beginPath();
-        ctx.arc(x - topOffset - curvature * 0.3, axisY - halfHeight, 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x - topOffset - curvature * 0.3, axisY + halfHeight, 4, 0, Math.PI * 2);
-        ctx.fill();
 
         ctx.lineCap = 'butt';
     },
@@ -252,6 +255,18 @@ const CanvasUtils = {
         const halfHeight = height / 2;
         const curvature = focalLength / 2;
 
+        // Draw dark backing (non-reflective side) - on the RIGHT of the curve
+        const backingWidth = 8;
+        ctx.fillStyle = isDark ? '#1a1a2e' : '#2d3436';
+        ctx.beginPath();
+        ctx.moveTo(x + curvature * 0.3, axisY - halfHeight);
+        ctx.quadraticCurveTo(x - curvature * 0.2, axisY, x + curvature * 0.3, axisY + halfHeight);
+        ctx.lineTo(x + curvature * 0.3 + backingWidth, axisY + halfHeight);
+        ctx.lineTo(x + curvature * 0.3 + backingWidth, axisY - halfHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        // Draw reflective surface (shiny gradient)
         const gradient = ctx.createLinearGradient(x - 10, axisY, x + 10, axisY);
         if (isDark) {
             gradient.addColorStop(0, '#78909c');
@@ -268,7 +283,7 @@ const CanvasUtils = {
         }
 
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 6;
+        ctx.lineWidth = 4;
         ctx.lineCap = 'round';
 
         ctx.beginPath();
@@ -276,21 +291,18 @@ const CanvasUtils = {
         ctx.quadraticCurveTo(x - curvature * 0.2, axisY, x + curvature * 0.3, axisY + halfHeight);
         ctx.stroke();
 
-        ctx.fillStyle = isDark ? '#b0bec5' : '#607d8b';
-        const topOffset = (halfHeight * halfHeight) / (4 * curvature) * 0.3;
-        ctx.beginPath();
-        ctx.arc(x + topOffset + curvature * 0.3, axisY - halfHeight, 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x + topOffset + curvature * 0.3, axisY + halfHeight, 4, 0, Math.PI * 2);
-        ctx.fill();
-
         ctx.lineCap = 'butt';
     },
 
     drawPlaneMirror(ctx, x, axisY, height, isDark) {
         const halfHeight = height / 2;
 
+        // Draw dark backing (non-reflective side) - on the RIGHT
+        const backingWidth = 6;
+        ctx.fillStyle = isDark ? '#1a1a2e' : '#2d3436';
+        ctx.fillRect(x, axisY - halfHeight, backingWidth, height);
+
+        // Draw reflective surface (shiny gradient)
         const gradient = ctx.createLinearGradient(x - 5, axisY, x + 5, axisY);
         if (isDark) {
             gradient.addColorStop(0, '#78909c');
@@ -307,21 +319,13 @@ const CanvasUtils = {
         }
 
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 6;
+        ctx.lineWidth = 4;
         ctx.lineCap = 'round';
 
         ctx.beginPath();
         ctx.moveTo(x, axisY - halfHeight);
         ctx.lineTo(x, axisY + halfHeight);
         ctx.stroke();
-
-        ctx.fillStyle = isDark ? '#b0bec5' : '#607d8b';
-        ctx.beginPath();
-        ctx.arc(x, axisY - halfHeight, 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x, axisY + halfHeight, 4, 0, Math.PI * 2);
-        ctx.fill();
 
         ctx.lineCap = 'butt';
     },
