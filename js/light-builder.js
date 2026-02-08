@@ -1033,8 +1033,8 @@ const LightBuilderLab = {
 
         if (hit && hit.t > 0 && hit.u >= 0 && hit.u <= 1) {
             // Normal points to the LEFT of the mirror line (at rotation=0, that's negative x)
-            let normalX = cos;
-            let normalY = sin;
+            let normalX = -cos;
+            let normalY = -sin;
 
             // Check which side the ray is hitting
             const dotProduct = ray.dx * normalX + ray.dy * normalY;
